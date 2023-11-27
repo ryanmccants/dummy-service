@@ -1,0 +1,28 @@
+on:
+  push:
+    tags: ["v*.*.*"]
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  release-linux-amd64:
+    name: release linux/amd64
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code into go module directory
+        uses: actions/checkout@v3
+
+      - name: Build api
+        uses: wangyoucao577/go-release-action@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          goos: linux
+          goarch: amd64
+          ldflags: "-X 'main.Version=${{ github.event.release.tag_name }}' -X 'main.BuildCommit=${{ github.event.release.target_commitish }}' -X 'main.BuildTimestamp=${{ github.event.release.created_at }}'"
+          sha256sum: true
+          overwrite: true
+          project_path: "./cmd/api"
+          binary_name: "dummy-service"
+          extra_files: "dummy-service.service"

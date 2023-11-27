@@ -1,0 +1,17 @@
+[Unit]
+Description=Dummy Service API
+Documentation=https://github.com/bdnelson/dummy-service/README.md
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+WorkingDirectory=/opt/dummy-service
+ExecStart=/opt/dummy-service/dummy-service
+Type=simple
+Restart=on-failure
+RuntimeDirectory=dummy-service
+User=ec2-user
+Group=ec2-user
+
+[Install]
+WantedBy=multi-user.target
