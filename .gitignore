@@ -1,5 +1,5 @@
 # Built binary should not be checked in.
-dummy-service
+dummy
 
 coverage.txt
 
